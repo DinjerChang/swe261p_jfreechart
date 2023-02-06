@@ -14,3 +14,5 @@
 *.iws
 
 src/main/chart_photos
+src/main/java/*.png
+src/main/java/*.jpeg
