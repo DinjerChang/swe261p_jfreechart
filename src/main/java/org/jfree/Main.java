@@ -20,7 +20,7 @@ public class Main {
     public static void main(String[] args) {
         String chartRoot = "src/main/chart_photos/";
         XYSeriesCollection<String> seriesCollection = new XYSeriesCollection<>();
-        XYSeries<String> series1 = new XYSeries<>("Group A");
+        XYSeries<String> series1 = new XYSeries<>("GroupA");
         series1.add(1.0, 6.0);
         series1.add(1.0, 1.5);
         series1.add(1.5, 1.5);
