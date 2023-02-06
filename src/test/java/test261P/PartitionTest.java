@@ -122,7 +122,7 @@ public class PartitionTest {
     public void testScatterPlotXaxisLowerBound(){
         XYPlot<String> defaultScatterChart = (XYPlot<String>) this.scatterChart.getPlot();
         Range rangeX = defaultScatterChart.getDomainAxis().getRange();
-        assertTrue(rangeX.getUpperBound() <1.0);
+        assertTrue(rangeX.getLowerBound() <1.0);
     }
 
     @Test
