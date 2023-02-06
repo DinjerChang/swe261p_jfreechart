@@ -21,10 +21,10 @@ public class Main {
         String chartRoot = "src/main/chart_photos/";
         XYSeriesCollection<String> seriesCollection = new XYSeriesCollection<>();
         XYSeries<String> series1 = new XYSeries<>("Group A");
-        series1.add(1.0, 1.0);
-        series1.add(1.2, 1.2);
-        series1.add(1.2, 1.0);
-        series1.add(1.0, 1.2);
+        series1.add(1.0, 6.0);
+        series1.add(1.0, 1.5);
+        series1.add(1.5, 1.5);
+        series1.add(1.5, 1.0);
 
         XYSeries<String> series2 = new XYSeries<>("Group B");
         series2.add(2.0,2.0);
@@ -34,9 +34,9 @@ public class Main {
 
         XYSeries<String> series3 = new XYSeries<>("Group C");
         series3.add(4.0,3.0);
-        series3.add(2.6,2.6);
-        series3.add(2.6,3.0);
-        series3.add(3.0,2.6);
+        series3.add(4.0,3.5);
+        series3.add(3.5,3.0);
+        series3.add(3.5,4.0);
 
         seriesCollection.addSeries(series1);
         seriesCollection.addSeries(series2);

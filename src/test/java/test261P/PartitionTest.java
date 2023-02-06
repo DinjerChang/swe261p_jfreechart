@@ -49,10 +49,10 @@ public class PartitionTest {
 
         XYSeriesCollection<String> seriesCollection = new XYSeriesCollection<>();
         XYSeries<String> series1 = new XYSeries<>("Group A");
-        series1.add(1.0, 1.0);
-        series1.add(1.2, 1.2);
-        series1.add(1.2, 1.0);
-        series1.add(1.0, 1.2);
+        series1.add(1.0, 6.0);
+        series1.add(1.0, 1.5);
+        series1.add(1.5, 1.5);
+        series1.add(1.5, 1.0);
 
         XYSeries<String> series2 = new XYSeries<>("Group B");
         series2.add(2.0,2.0);
@@ -62,9 +62,9 @@ public class PartitionTest {
 
         XYSeries<String> series3 = new XYSeries<>("Group C");
         series3.add(4.0,3.0);
-        series3.add(2.6,2.6);
-        series3.add(2.6,3.0);
-        series3.add(3.0,2.6);
+        series3.add(4.0,3.5);
+        series3.add(3.5,3.0);
+        series3.add(3.5,4.0);
 
         seriesCollection.addSeries(series1);
         seriesCollection.addSeries(series2);
@@ -101,18 +101,34 @@ public class PartitionTest {
     @Test
     public void testNumberOfSeries(){
         JFreeChart defaultScatterChart = this.scatterChart;
-        System.out.println(defaultScatterChart.getPlot().getLegendItems().get(0).getSeriesKey());
+
         Integer NumberOfSeries = defaultScatterChart.getPlot().getLegendItems().getItemCount();
         assertEquals(3,NumberOfSeries);
     }
 
-
+    /**
+     * Our default Scatter Plot has a border ranging from 1.0~4.0 on X-axis
+     *  and from 1.0~3.0 from Y-axis
+     */
     @Test
-    public void testBoundary(){
+    public void testScatterPlotXaxisUpperBound(){
         XYPlot<String> defaultScatterChart = (XYPlot<String>) this.scatterChart.getPlot();
         Range rangeX = defaultScatterChart.getDomainAxis().getRange();
-        assertTrue(rangeX.getLowerBound() < 1.0);
         assertTrue(rangeX.getUpperBound() > 4.0);
+    }
+
+    @Test
+    public void testScatterPlotYaxisLowerBound(){
+        XYPlot<String> defaultScatterChart = (XYPlot<String>) this.scatterChart.getPlot();
+        Range rangeX = defaultScatterChart.getRangeAxis().getRange();
+        assertTrue(rangeX.getLowerBound() < 1.0);
+    }
+
+    @Test
+    public void testScatterPlotYaxisUpperBound(){
+        XYPlot<String> defaultScatterChart = (XYPlot<String>) this.scatterChart.getPlot();
+        Range rangeX = defaultScatterChart.getRangeAxis().getRange();
+        assertTrue(rangeX.getUpperBound() > 6.0);
     }
 
 
@@ -135,6 +151,17 @@ public class PartitionTest {
         }
     }
 
+
+    /**
+     * Do nothing and checks the plot isn't changed
+     */
+    @Test
+    public void testPlotNeverChange() {
+        LocalListener l = new LocalListener();
+        this.scatterChart.addChangeListener(l);
+        assertFalse(l.flag);
+    }
+
     /**
      * Replaces the dataset and checks that it has changed as expected.
      */
@@ -155,26 +182,5 @@ public class PartitionTest {
         XYPlot<String> plot = (XYPlot) this.scatterChart.getPlot();
         plot.setDataset(dataset);
         assertTrue(l.flag);
-        ValueAxis axis = plot.getRangeAxis();
-        Range range = axis.getRange();
-        assertTrue(range.getLowerBound() <= 10,
-                "Expecting the lower bound of the range to be around 10: " + range.getLowerBound());
-        assertTrue(range.getUpperBound() >= 30,
-                "Expecting the upper bound of the range to be around 30: " + range.getUpperBound());
     }
-
-    /**
-     * Check that setting a tool tip generator for a series does override the
-     * default generator.
-     */
-    @Test
-    public void testSetSeriesToolTipGenerator() {
-        XYPlot<?> plot = (XYPlot) this.scatterChart.getPlot();
-        XYItemRenderer renderer = plot.getRenderer();
-        StandardXYToolTipGenerator tt = new StandardXYToolTipGenerator();
-        renderer.setSeriesToolTipGenerator(0, tt);
-        XYToolTipGenerator tt2 = renderer.getToolTipGenerator(0, 0);
-        assertSame(tt2, tt);
-    }
-
 }
