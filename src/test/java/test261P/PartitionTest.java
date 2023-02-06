@@ -7,6 +7,7 @@ import org.jfree.chart.event.ChartChangeEvent;
 import org.jfree.chart.event.ChartChangeListener;
 import org.jfree.chart.labels.StandardXYToolTipGenerator;
 import org.jfree.chart.labels.XYToolTipGenerator;
+import org.jfree.chart.plot.FastScatterPlot;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.data.Range;
@@ -71,8 +72,8 @@ public class PartitionTest {
         seriesCollection.addSeries(series3);
         XYDataset<String> dataset = seriesCollection;
 
-        return ChartFactory.createScatterPlot("Scatter Plot", "X",
-                "Y", dataset);
+        return ChartFactory.createScatterPlot("Scatter Plot", "Domain",
+                "Range", dataset);
     }
 
     /**
@@ -107,14 +108,21 @@ public class PartitionTest {
     }
 
     /**
-     * Our default Scatter Plot has a border ranging from 1.0~4.0 on X-axis
-     *  and from 1.0~3.0 from Y-axis
+     * Our default Scatter Plot has a border ranging from 1.0 ~ 4.0 on X-axis
+     *  and from 1.0 ~ 6.0 from Y-axis
      */
     @Test
     public void testScatterPlotXaxisUpperBound(){
         XYPlot<String> defaultScatterChart = (XYPlot<String>) this.scatterChart.getPlot();
         Range rangeX = defaultScatterChart.getDomainAxis().getRange();
         assertTrue(rangeX.getUpperBound() > 4.0);
+    }
+
+    @Test
+    public void testScatterPlotXaxisLowerBound(){
+        XYPlot<String> defaultScatterChart = (XYPlot<String>) this.scatterChart.getPlot();
+        Range rangeX = defaultScatterChart.getDomainAxis().getRange();
+        assertTrue(rangeX.getUpperBound() <1.0);
     }
 
     @Test
@@ -131,36 +139,6 @@ public class PartitionTest {
         assertTrue(rangeX.getUpperBound() > 6.0);
     }
 
-
-    /**
-     * Draws the chart with a null info object to make sure that no exceptions
-     * are thrown (a problem that was occurring at one point).
-     */
-    @Test
-    public void testDrawWithNullInfo() {
-        try {
-            BufferedImage image = new BufferedImage(200, 100,
-                    BufferedImage.TYPE_INT_RGB);
-            Graphics2D g2 = image.createGraphics();
-            this.scatterChart.draw(g2, new Rectangle2D.Double(0, 0, 200, 100), null,
-                    null);
-            g2.dispose();
-        }
-        catch (Exception e) {
-            fail("No exception should be thrown.");
-        }
-    }
-
-
-    /**
-     * Do nothing and checks the plot isn't changed
-     */
-    @Test
-    public void testPlotNeverChange() {
-        LocalListener l = new LocalListener();
-        this.scatterChart.addChangeListener(l);
-        assertFalse(l.flag);
-    }
 
     /**
      * Replaces the dataset and checks that it has changed as expected.
@@ -182,5 +160,76 @@ public class PartitionTest {
         XYPlot<String> plot = (XYPlot) this.scatterChart.getPlot();
         plot.setDataset(dataset);
         assertTrue(l.flag);
+    }
+
+    /**
+     * Test DataSet Label: Null
+     */
+    @Test
+    public void testReplaceKeyWithNull(){
+        LocalListener l = new LocalListener();
+        this.scatterChart.addChangeListener(l);
+        XYPlot<String> defaultScatterChart = (XYPlot<String>) this.scatterChart.getPlot();
+        boolean isReplace = false;
+
+        try{
+            XYSeries<String> series1 = new XYSeries<>(null);
+            series1.add(10.0, 10.0);
+            series1.add(20.0, 20.0);
+            series1.add(30.0, 30.0);
+            XYDataset<String> dataset = new XYSeriesCollection<>(series1);
+            defaultScatterChart.setDataset(dataset);
+        }catch (IllegalArgumentException e){
+            isReplace = true;
+        }
+        assertFalse(l.flag);
+        assertTrue(isReplace);
+    }
+
+    /**
+     * Test DataSet Label: String
+     */
+    @Test
+    public void testReplaceKeyWithEmptyString(){
+        LocalListener l = new LocalListener();
+        this.scatterChart.addChangeListener(l);
+        XYPlot<String> defaultScatterChart = (XYPlot<String>) this.scatterChart.getPlot();
+        XYSeries<String> series1 = new XYSeries<>("");
+        series1.add(10.0, 10.0);
+        series1.add(20.0, 20.0);
+        series1.add(30.0, 30.0);
+        XYDataset<String> dataset = new XYSeriesCollection<>(series1);
+        defaultScatterChart.setDataset(dataset);
+        String firstKey = this.scatterChart.getPlot().getLegendItems().get(0).getLabel();
+        assertEquals("",firstKey);
+    }
+
+
+
+
+    /**
+     * Do nothing and checks the plot isn't changed
+     */
+    @Test
+    public void testPlotNeverChange() {
+        LocalListener l = new LocalListener();
+        this.scatterChart.addChangeListener(l);
+        assertFalse(l.flag);
+    }
+
+
+    @Test
+    public void testDrawWithNullInfo() {
+        try {
+            BufferedImage image = new BufferedImage(200, 100,
+                    BufferedImage.TYPE_INT_RGB);
+            Graphics2D g2 = image.createGraphics();
+            this.scatterChart.draw(g2, new Rectangle2D.Double(0, 0, 200, 100), null,
+                    null);
+            g2.dispose();
+        }
+        catch (Exception e) {
+            fail("No exception should be thrown.");
+        }
     }
 }
