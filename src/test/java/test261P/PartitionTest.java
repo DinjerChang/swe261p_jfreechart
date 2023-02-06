@@ -40,6 +40,40 @@ public class PartitionTest {
         this.scatterChart = createChart();
     }
 
+    /**
+     * Create a Scatter chart with sample data
+     *
+     * @return The chart.
+     */
+    private static JFreeChart createChart() {
+
+        XYSeriesCollection<String> seriesCollection = new XYSeriesCollection<>();
+        XYSeries<String> series1 = new XYSeries<>("Group A");
+        series1.add(1.0, 1.0);
+        series1.add(1.2, 1.2);
+        series1.add(1.2, 1.0);
+        series1.add(1.0, 1.2);
+
+        XYSeries<String> series2 = new XYSeries<>("Group B");
+        series2.add(2.0,2.0);
+        series2.add(2.5,2.5);
+        series2.add(2.0,2.5);
+        series2.add(2.5,2.0);
+
+        XYSeries<String> series3 = new XYSeries<>("Group C");
+        series3.add(4.0,3.0);
+        series3.add(2.6,2.6);
+        series3.add(2.6,3.0);
+        series3.add(3.0,2.6);
+
+        seriesCollection.addSeries(series1);
+        seriesCollection.addSeries(series2);
+        seriesCollection.addSeries(series3);
+        XYDataset<String> dataset = seriesCollection;
+
+        return ChartFactory.createScatterPlot("Scatter Plot", "X",
+                "Y", dataset);
+    }
 
     /**
      * A chart change listener.
@@ -59,8 +93,28 @@ public class PartitionTest {
         public void chartChanged(ChartChangeEvent event) {
             this.flag = true;
         }
-
     }
+
+    /**
+     * Test Integer value
+     */
+    @Test
+    public void testNumberOfSeries(){
+        JFreeChart defaultScatterChart = this.scatterChart;
+        System.out.println(defaultScatterChart.getPlot().getLegendItems().get(0).getSeriesKey());
+        Integer NumberOfSeries = defaultScatterChart.getPlot().getLegendItems().getItemCount();
+        assertEquals(3,NumberOfSeries);
+    }
+
+
+    @Test
+    public void testBoundary(){
+        XYPlot<String> defaultScatterChart = (XYPlot<String>) this.scatterChart.getPlot();
+        Range rangeX = defaultScatterChart.getDomainAxis().getRange();
+        assertTrue(rangeX.getLowerBound() < 1.0);
+        assertTrue(rangeX.getUpperBound() > 4.0);
+    }
+
 
     /**
      * Draws the chart with a null info object to make sure that no exceptions
@@ -122,22 +176,5 @@ public class PartitionTest {
         XYToolTipGenerator tt2 = renderer.getToolTipGenerator(0, 0);
         assertSame(tt2, tt);
     }
-
-    /**
-     * Create a Scatter chart with sample data
-     *
-     * @return The chart.
-     */
-    private static JFreeChart createChart() {
-        XYSeries<String> series1 = new XYSeries<>("Series 1");
-        series1.add(1.0, 1.0);
-        series1.add(2.0, 2.0);
-        series1.add(3.0, 3.0);
-        XYDataset<String> dataset = new XYSeriesCollection<>(series1);
-        return ChartFactory.createScatterPlot("Scatter Plot", "Domain",
-                "Range", dataset);
-    }
-
-
 
 }
