@@ -6,14 +6,12 @@ import org.jfree.chart.JFreeChart;
 
 import org.jfree.chart.axis.NumberAxis;
 
-import org.jfree.chart.event.ChartChangeEvent;
-import org.jfree.chart.event.ChartChangeListener;
+
 import org.jfree.chart.plot.XYPlot;
 
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -22,72 +20,8 @@ import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class FiniteStateMachineTest {
-    /** A chart. */
-    private JFreeChart scatterChart;
 
-    /**
-     * Common test setup.
-     * initiate a scatter plot
-     */
-    @BeforeEach
-    public void setUp() {
-        this.scatterChart = createChart();
-    }
 
-    /**
-     * Create a Scatter chart with sample data
-     *
-     * @return The chart.
-     */
-    private static JFreeChart createChart() {
-
-        XYSeriesCollection<String> seriesCollection = new XYSeriesCollection<>();
-        XYSeries<String> series1 = new XYSeries<>("Group A");
-        series1.add(1.0, 6.0);
-        series1.add(1.0, 1.5);
-        series1.add(1.5, 1.5);
-        series1.add(1.5, 1.0);
-
-        XYSeries<String> series2 = new XYSeries<>("Group B");
-        series2.add(2.0,2.0);
-        series2.add(2.5,2.5);
-        series2.add(2.0,2.5);
-        series2.add(2.5,2.0);
-
-        XYSeries<String> series3 = new XYSeries<>("Group C");
-        series3.add(4.0,3.0);
-        series3.add(4.0,3.5);
-        series3.add(3.5,3.0);
-        series3.add(3.5,4.0);
-
-        seriesCollection.addSeries(series1);
-        seriesCollection.addSeries(series2);
-        seriesCollection.addSeries(series3);
-        XYDataset<String> dataset = seriesCollection;
-
-        return ChartFactory.createScatterPlot("Scatter Plot", "Domain",
-                "Range", dataset);
-    }
-
-    /**
-     * A chart change listener.
-     *
-     */
-    static class LocalListener implements ChartChangeListener {
-
-        /** A flag. */
-        private boolean flag = false;
-
-        /**
-         * Event handler.
-         *
-         * @param event  the event.
-         */
-        @Override
-        public void chartChanged(ChartChangeEvent event) {
-            this.flag = true;
-        }
-    }
 
     /**
      * Test DataSet State
@@ -149,7 +83,7 @@ public class FiniteStateMachineTest {
      * Test JFree Chart State
      */
     @Test
-    public void testJFreeChartState() throws IOException {
+    public void testJFreeChartState()  {
         XYSeriesCollection<String> seriesCollection = new XYSeriesCollection<>();
         XYSeries<String> series1 = new XYSeries<>("Group A");
         series1.add(1.0, 6.0);
@@ -163,8 +97,7 @@ public class FiniteStateMachineTest {
         seriesCollection.addSeries(series2);
         XYDataset<String> scatterDataset = seriesCollection;
 
-        JFreeChart scatterPlot = ChartFactory.createXYLineChart("Scatter Chart","Domain", "Range",scatterDataset);
-        ChartUtils.saveChartAsPNG(new File("src/test/java/test261P/" + "scatter_chart.png"), scatterChart,500, 500);
+        JFreeChart scatterPlot = ChartFactory.createScatterPlot("Scatter Chart","Domain", "Range",scatterDataset);
         assertEquals("Scatter Chart", scatterPlot.getTitle().getText());
         assertEquals(scatterDataset, ((XYPlot)scatterPlot.getPlot()).getDataset());
     }
@@ -241,7 +174,6 @@ public class FiniteStateMachineTest {
         xyPlot.setDataset(scatterDataset);
 
         JFreeChart scatterPlot = ChartFactory.createScatterPlot("Scatter Chart","Domain", "Range",scatterDataset);
-
         assertEquals(((XYPlot) scatterPlot.getPlot()).getDataset(), xyPlot.getDataset());
     }
 
@@ -267,12 +199,12 @@ public class FiniteStateMachineTest {
 
         XYSeriesCollection<String> newDataset = new XYSeriesCollection<>();
         XYSeries<String> series3 = new XYSeries<>("Group A");
-        series1.add(1.0, 6.0);
-        series1.add(1.5, 1.0);
+        series1.add(10.0, 60.0);
+        series1.add(10.5, 10.0);
 
         XYSeries<String> series4 = new XYSeries<>("Group B");
-        series2.add(2.0,2.5);
-        series2.add(2.5,2.0);
+        series2.add(20.0,20.5);
+        series2.add(20.5,20.0);
 
         newDataset.addSeries(series3);
         newDataset.addSeries(series4);
@@ -304,12 +236,12 @@ public class FiniteStateMachineTest {
 
         XYSeriesCollection<String> newDataset = new XYSeriesCollection<>();
         XYSeries<String> series3 = new XYSeries<>("Group A");
-        series1.add(1.0, 6.0);
-        series1.add(1.5, 1.0);
+        series1.add(10.0, 60.0);
+        series1.add(10.5, 10.0);
 
         XYSeries<String> series4 = new XYSeries<>("Group B");
-        series2.add(2.0,2.5);
-        series2.add(2.5,2.0);
+        series2.add(20.0,20.5);
+        series2.add(20.5,20.0);
 
         newDataset.addSeries(series3);
         newDataset.addSeries(series4);
@@ -365,7 +297,7 @@ public class FiniteStateMachineTest {
 
         JFreeChart scatterPlot = ChartFactory.createScatterPlot("Scatter Chart","Domain", "Range",scatterDataset);
         try {
-            ChartUtils.saveChartAsPNG(new File("src/test/java/test261P/test_chart_output.png"), scatterPlot,300, 200);
+            ChartUtils.saveChartAsPNG(new File("src/test/java/test261P/test_chart_output.png"), scatterPlot,500, 500);
         }catch(IOException e) {
             fail("Saving chart as PNG file should not throw an exception");
         }
