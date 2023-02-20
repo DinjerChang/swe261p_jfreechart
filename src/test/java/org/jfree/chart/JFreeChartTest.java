@@ -452,6 +452,7 @@ public class JFreeChartTest implements ChartChangeListener {
                 new DefaultPieDataset<String>()).getTitle().getText());
     }
 
+
     /** The last ChartChangeEvent received. */
     private ChartChangeEvent lastChartChangeEvent;
 

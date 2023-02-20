@@ -9,13 +9,18 @@ import org.jfree.chart.axis.NumberAxis;
 
 import org.jfree.chart.plot.XYPlot;
 
+import org.jfree.data.time.Second;
+import org.jfree.data.time.TimeSeries;
+import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -302,5 +307,48 @@ public class FiniteStateMachineTest {
             fail("Saving chart as PNG file should not throw an exception");
         }
     }
+
+    /*@Test
+    public void testCreateScatterPlot() {
+        XYDataset<String> scatterDataset = new XYSeriesCollection<>();
+        JFreeChart scatterPlot = ChartFactory.createScatterPlot("Scatter Chart", "Domain", "Range", scatterDataset);
+        assertNotNull(scatterPlot);
+    }
+
+    @Test
+    public void testCreateScatterPlot_NullArguments() {
+        XYDataset<String> scatterDataset = new XYSeriesCollection<>();
+        assertThrows(IllegalArgumentException.class, () -> ChartFactory.createScatterPlot(null, "Domain", "Range", scatterDataset));
+        assertThrows(IllegalArgumentException.class, () -> ChartFactory.createScatterPlot("Scatter Chart", null, "Range", scatterDataset));
+        assertThrows(IllegalArgumentException.class, () -> ChartFactory.createScatterPlot("Scatter Chart", "Domain", null, scatterDataset));
+    }
+
+    @Test
+    public void testSetDomainAndRangeAxis() {
+        XYPlot xyPlot = new XYPlot();
+        NumberAxis domainAxis = new NumberAxis("X Axis");
+        NumberAxis rangeAxis = new NumberAxis("Y Axis");
+
+        xyPlot.setDomainAxis(domainAxis);
+        xyPlot.setRangeAxis(rangeAxis);
+
+        assertNotNull(xyPlot.getDomainAxis());
+        assertNotNull(xyPlot.getRangeAxis());
+    }
+
+    @Test
+    public void testWriteChartAsPNG() throws IOException {
+        XYDataset<String> scatterDataset = new XYSeriesCollection<>();
+        JFreeChart scatterPlot = ChartFactory.createScatterPlot("Scatter Chart", "Domain", "Range", scatterDataset);
+
+        File pngFile = new File("scatterChart.png");
+        OutputStream out = new FileOutputStream(pngFile);
+        ChartUtils.writeChartAsPNG(out, scatterPlot, 500, 500);
+        out.close();
+
+        assertTrue(pngFile.exists());
+        pngFile.delete();
+    }*/
+
 }
 
