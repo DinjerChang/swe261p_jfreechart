@@ -27,7 +27,6 @@ import static org.junit.jupiter.api.Assertions.*;
 public class FiniteStateMachineTest {
 
 
-
     /**
      * Test DataSet State
      */
