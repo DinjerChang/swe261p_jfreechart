@@ -198,4 +198,15 @@ public class CSV {
         return k;
     }
 
+    public String removeStringDelimitersTestable(String key) {
+        String k = key.trim();
+        if (k.charAt(0) == this.textDelimiter) {
+            k = k.substring(1);
+        }
+        if (k.charAt(k.length() - 1) == this.textDelimiter) {
+            k = k.substring(0, k.length() - 1);
+        }
+        return k;
+    }
+
 }
