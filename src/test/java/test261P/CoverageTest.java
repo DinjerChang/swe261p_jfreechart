@@ -491,7 +491,7 @@ public class CoverageTest implements ChartChangeListener {
 
     @Test
     // test chart font if given null, should be set to default font
-    // at line 322
+    // at line 322 in JFreeChat.java
     public void testFontNullBranch(){
         JFreeChart jc = new JFreeChart("Title",
                 null, new PiePlot(), true);
@@ -500,20 +500,20 @@ public class CoverageTest implements ChartChangeListener {
     }
 
     @Test
-    // at line 241
+    // at line 241 in JFreeChat.java
     public void testJFreeChartConstructorWithOnlyPlotArg(){
         JFreeChart jc = new JFreeChart( new PiePlot<>());
         assertEquals(jc.getPlot().getPlotType(),"Pie Plot" );
     }
 
     @Test
-    // at line 257
+    // at line 257 in JFreeChat.java
     public void testJFreeChartConstructorWithArgPlotandTitle(){
         JFreeChart jc = new JFreeChart( "Test",new PiePlot<>());
         assertEquals(jc.getTitle().getText(),"Test" );
     }
     @Test
-    // at line 341 & 350
+    // at line 341 & 350 in JFreeChat.java
     public void testGetAndSetID(){
         JFreeChart jc = new JFreeChart( "Test",new PiePlot<>());
         assertNull(jc.getID());
@@ -522,7 +522,7 @@ public class CoverageTest implements ChartChangeListener {
         assertEquals(jc.getID(),"testID");
     }
     @Test
-    // at line 364 & 378
+    // at line 364 & 378 in JFreeChat.java
     public void testGetAndSetElementHinting(){
         // default hinting is false
         JFreeChart jc = new JFreeChart("Title",
@@ -534,7 +534,7 @@ public class CoverageTest implements ChartChangeListener {
     }
 
     @Test
-    //at line 529
+    //at line 529 in JFreeChat.java
     public void testSetNullTitleWithValueBranch(){
         JFreeChart jc = new JFreeChart( new PiePlot<>());
         String title = "title";
@@ -542,7 +542,7 @@ public class CoverageTest implements ChartChangeListener {
         assertEquals("title",jc.getTitle().getText());
     }
     @Test
-    //at line 552
+    //at line 552 in JFreeChat.java
     public void testSetTitleWithNullBranch(){
         JFreeChart jc = new JFreeChart( "test",new PiePlot<>());
         String title = null;
@@ -551,7 +551,7 @@ public class CoverageTest implements ChartChangeListener {
     }
 
     @Test
-    //at line 846
+    //at line 846 in JFreeChat.java
     public void testSetBackgroundPaintBranch1(){
         // default Paint is color.white
         JFreeChart jc = new JFreeChart( "test",new PiePlot<>());
@@ -565,7 +565,7 @@ public class CoverageTest implements ChartChangeListener {
     }
 
     @Test
-    //at line 846
+    //at line 846 in JFreeChat.java
     public void testSetBackgroundPaintBranch2(){
         // default Paint is com.apple.laf.AquaImageFactory$SystemColorProxy[r=238,g=238,b=238]
         JFreeChart jc = new JFreeChart( "test",new PiePlot<>());
@@ -593,7 +593,7 @@ public class CoverageTest implements ChartChangeListener {
         assertEquals(600,img.getHeight());
     }
     @Test
-    // at line 1611
+    // at line 1611 in JFreeChat.java
     public void testClone() throws CloneNotSupportedException {
         JFreeChart jc = new JFreeChart( "test",new PiePlot<>());
         JFreeChart jcClone = (JFreeChart) jc.clone();
