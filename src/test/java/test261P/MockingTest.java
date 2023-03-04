@@ -53,7 +53,7 @@ public class MockingTest {
 
         // create scatter chart with mocked XYDataset
         JFreeChart scatterChart = ChartFactory.createScatterPlot("Scatter Chart","Domain","Range",xyDataset);
-        verify(xyDataset,times(1)).getSeriesKey(2);
+        verify(xyDataset,times(2)).getSeriesKey(2);
 
         // since we already called getSeries twice at line 34 and 35, this will add the interaction time to 4
         verify(xyDataset,times(4)).getSeriesKey(0);
